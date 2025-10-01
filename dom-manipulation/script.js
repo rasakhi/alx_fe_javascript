@@ -189,7 +189,7 @@ document.addEventListener("DOMContentLoaded", () => {
         populateCategories();
         filterQuotes();
 
-        alert("Quotes synced with server (server data takes priority).");
+        alert("Quotes synced with server!");
     }
 
     const syncBtn = document.createElement("button");
