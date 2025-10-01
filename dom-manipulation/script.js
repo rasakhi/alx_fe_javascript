@@ -137,6 +137,51 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     document.getElementById("importFile").addEventListener("change", importFromJsonFile);
 
+    async function fetchServerQuotes() {
+        try {
+            const res = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=5");
+            const data = await res.json();
+
+            return data.map(item => ({
+                text: item.title,
+                category: "Server"
+            }));
+        } catch (error) {
+            console.error("Failed to fetch server quotes:", error);
+            return [];
+        }
+    }
+
+    async function syncQuoteWithServer() {
+        const serverQuotes = await fetchServerQuotes();
+        if (serverQuotes.length === 0) return;
+        
+        const mergedQuotes = [...serverQuotes];
+
+        quotes.forEach(localQ => {
+            if (!serverQuotes.some(sq => sq.text === localQ.text && sq.category === localQ.category)) {
+                mergedQuotes.push(localQ);
+            }
+        });
+
+        quotes.length = 0;
+        quotes.push(...mergedQuotes);
+        saveQuotes();
+
+        populateCategories();
+        filterQuotes();
+
+        alert("Quotes synced with server (server data takes priority).");
+    }
+
+    const syncBtn = document.createElement("button");
+    syncBtn.textContent = "Sync with Server";
+    syncBtn.onclick = syncQuoteWithServer;
+    document.body.appendChild(syncBtn);
+
     populateCategories();
     filterQuotes();
+
+    setInterval(syncQuoteWithServer, 60000);
+    
 });
