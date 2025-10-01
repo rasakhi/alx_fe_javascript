@@ -16,10 +16,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function showRandomQuote() {
         let filtered = quotes;
-        const selected = categoryFilter.value;
+        const selectedCategory = categoryFilter.value;
 
-        if (selected !== "all") {
-            filtered = quotes.filter(q => q.category === selected);
+        if (selectedCategory !== "all") {
+            filtered = quotes.filter(q => q.category === selectedCategory);
         }
 
         if (filtered.length === 0) {
@@ -58,8 +58,8 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     function filterQuotes() {
-        const selected = categoryFilter.value;
-        localStorage.setItem("lastFilter", selected);
+        const selectedCategory = categoryFilter.value;
+        localStorage.setItem("lastFilter", selectedCategory);
         showRandomQuote();
     }
 
