@@ -137,7 +137,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     document.getElementById("importFile").addEventListener("change", importFromJsonFile);
 
-    async function fetchServerQuotes() {
+    async function fetchQuotesFromServer() {
         try {
             const res = await fetch("https://jsonplaceholder.typicode.com/posts?_limit=5");
             const data = await res.json();
@@ -153,7 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     async function syncQuoteWithServer() {
-        const serverQuotes = await fetchServerQuotes();
+        const serverQuotes = await fetchQuotesFromServer();
         if (serverQuotes.length === 0) return;
         
         const mergedQuotes = [...serverQuotes];
