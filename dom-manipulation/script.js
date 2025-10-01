@@ -71,8 +71,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     newQuoteBtn.onclick = showRandomQuote;
 
-    const exportBtn = document.createElement("button");
-    exportBtn.textContent = "Export Quotes";
+    const exportBtn = document.getElementById("exportQuotes");
     exportBtn.onclick = () => {
         const blob = new Blob([JSON.stringify(quotes, null, 2)], { type: "application/json"});
         const url = URL.createObjectURL(blob);
