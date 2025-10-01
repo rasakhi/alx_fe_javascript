@@ -152,7 +152,23 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    async function syncQuoteWithServer() {
+    async function sendQuoteToServer(quote) {
+        try {
+            const res = await fetch("https://jsonplaceholder.typicode.com/posts", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(quote)
+            });
+            const data = await res.json();
+            console.log("Quote sent to server:", data);
+            alert("Quote sent to server successfully!");
+        } catch (error) {
+            console.error("Failed to send quote:", error);
+            alert("Error sending quote to server.");
+        }
+    }
+
+    async function syncQuotes() {
         const serverQuotes = await fetchQuotesFromServer();
         if (serverQuotes.length === 0) return;
         
@@ -161,6 +177,8 @@ document.addEventListener("DOMContentLoaded", () => {
         quotes.forEach(localQ => {
             if (!serverQuotes.some(sq => sq.text === localQ.text && sq.category === localQ.category)) {
                 mergedQuotes.push(localQ);
+
+                sendQuoteToServer(localQ);
             }
         });
 
@@ -176,12 +194,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const syncBtn = document.createElement("button");
     syncBtn.textContent = "Sync with Server";
-    syncBtn.onclick = syncQuoteWithServer;
+    syncBtn.onclick = syncQuotes;
     document.body.appendChild(syncBtn);
 
     populateCategories();
     filterQuotes();
 
-    setInterval(syncQuoteWithServer, 60000);
+    setInterval(syncQuotes, 60000);
     
 });
