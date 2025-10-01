@@ -103,10 +103,4 @@ document.addEventListener("DOMContentLoaded", () => {
         };
         fileReader.readAsText(event.target.files[0]);
     }
-
-    const importInput = document.createElement("input");
-    importInput.type = "file";
-    importInput.accept = "application/json";
-    importInput.addEventListener("change", impotFromJsonFile);
-    document.body,appendChild(importInput);
 });
